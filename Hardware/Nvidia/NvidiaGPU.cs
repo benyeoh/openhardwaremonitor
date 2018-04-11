@@ -110,6 +110,11 @@ namespace OpenHardwareMonitor.Hardware.Nvidia {
     }
 
     private NvGPUThermalSettings GetThermalSettings() {
+      // HACK: For some reason, it needs this
+      NvDisplayDriverVersion driverVersion = new NvDisplayDriverVersion();
+      driverVersion.Version = NVAPI.DISPLAY_DRIVER_VERSION_VER;
+      NVAPI.NvAPI_GetDisplayDriverVersion(displayHandle.Value, ref driverVersion);
+
       NvGPUThermalSettings settings = new NvGPUThermalSettings();
       settings.Version = NVAPI.GPU_THERMAL_SETTINGS_VER;
       settings.Count = NVAPI.MAX_THERMAL_SENSORS_PER_GPU;
